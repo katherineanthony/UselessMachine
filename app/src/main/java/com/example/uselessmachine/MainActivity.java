@@ -27,11 +27,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        progressy.setVisibility(View.INVISIBLE);
-        textViewy.setVisibility(View.INVISIBLE);
+
 
         wireWidgets();
         setListeners();
+        progressy.setVisibility(View.INVISIBLE);
+        textViewy.setVisibility(View.INVISIBLE);
     }
 
     private void wireWidgets()
@@ -97,23 +98,32 @@ public class MainActivity extends AppCompatActivity {
         busylookin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                busylookin.setVisibility(View.INVISIBLE);
-                new CountDownTimer(30000, 1000) {
+                busylookin.setVisibility(View.GONE);
+                buttonSD.setVisibility(View.GONE);
+                switchy.setVisibility(View.GONE);
+                progressy.setVisibility(View.VISIBLE);
+                textViewy.setVisibility(View.VISIBLE);
+                new CountDownTimer(21000, 1000) {
+                    int prog = 0;
                     @Override
                     public void onTick(long l) {
 
-                        int oldProgress = 0;
-                        while(progressy.getProgress() < 500) {
-                            progressy.setProgress(oldProgress);
-                            textViewy.setText(oldProgress + "%");
-                            oldProgress += 2;
+
+                        progressy.setProgress(prog);
+                        textViewy.setText(prog + "%");
+                        prog = prog + 5;
 
                         }
-                    }
+
 
                     @Override
                     public void onFinish() {
-                        finish();
+                        textViewy.setVisibility(View.INVISIBLE);
+                        progressy.setVisibility(View.INVISIBLE);
+                        busylookin.setVisibility(View.VISIBLE);
+                        switchy.setVisibility(View.VISIBLE);
+                        buttonSD.setVisibility(View.VISIBLE);
+
                     }
                 }.start();
 
